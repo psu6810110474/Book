@@ -6,6 +6,8 @@ import { BookCategoryModule } from './book-category/book-category.module';
 import { BookCategory } from './book-category/entities/book-category.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { BookModule } from './book/book.module';
+
 
 @Module({
   imports: [
@@ -16,13 +18,15 @@ import { join } from 'path';
       username: 'admin',
       password: 'password123',
       database: 'bookstore_dev',
-      entities: [BookCategory],
+      entities: [],
+      autoLoadEntities: true,
       synchronize: true, // ใช้เฉพาะตอน dev
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
     BookCategoryModule,
+    BookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
