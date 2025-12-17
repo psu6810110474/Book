@@ -34,7 +34,7 @@ async onModuleInit() {
   }
 
   async findOne(id: string) {
-    return this.repo.findOne({ where: { id } });
+    return this.repo.findOneBy({ id });
   }
 
   async update(id: string, updateBookCategoryDto: UpdateBookCategoryDto) {
