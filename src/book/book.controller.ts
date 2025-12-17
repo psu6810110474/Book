@@ -36,5 +36,5 @@ export class BookController {
   @Patch(':id/like')
   likeBook(@Param('id') id: string) {
     return this.bookService.incrementLikes(id);
-  }
+}
 }
