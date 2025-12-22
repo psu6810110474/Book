@@ -9,6 +9,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { BookModule } from './book/book.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -16,8 +17,8 @@ import { UsersModule } from './users/users.module';
         // ✅ 1. โหลด .env ก่อน
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
-    }),
+      envFilePath: '.env', // ต้องระบุบรรทัดนี้เพื่อให้ชัวร์ว่าอ่านไฟล์ถูก
+  }),
 
     // ✅ 2. ให้ TypeORM อ่านค่าจาก .env
     TypeOrmModule.forRootAsync({
@@ -36,6 +37,8 @@ import { UsersModule } from './users/users.module';
     }),
 
     UsersModule,
+
+    AuthModule,
   ],
 })
 export class AppModule {}

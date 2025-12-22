@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
 import { CreateBookCategoryDto } from './dto/create-book-category.dto';
 import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
 import { Repository } from 'typeorm'; 
@@ -8,10 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class BookCategoryService implements OnModuleInit {  
   constructor(
     @InjectRepository(BookCategory)
-    private readonly repo: Repository<BookCategory>,
-) {}
+    @Optional()
+    private readonly repo?: Repository<BookCategory>,
+  ) {}
 
 async onModuleInit() { 
+  if (!this.repo) return;
   const count = await this.repo.count(); 
     if (count === 0) { 
       console.log('Seeding Book Categories...'); 
@@ -25,26 +27,26 @@ async onModuleInit() {
 
 
   async create(createBookCategoryDto: CreateBookCategoryDto) {
-    const category = this.repo.create(createBookCategoryDto);
-    return this.repo.save(category);
+    const category = this.repo!.create(createBookCategoryDto);
+    return this.repo!.save(category);
   }
 
   async findAll() {
-    return this.repo.find();
+    return this.repo!.find();
   }
 
   async findOne(id: string) {
-    return this.repo.findOneBy({ id });
+    return this.repo!.findOneBy({ id });
   }
 
   async update(id: string, updateBookCategoryDto: UpdateBookCategoryDto) {
-    await this.repo.update(id, updateBookCategoryDto);
-    return this.repo.findOne({ where: { id } });
+    await this.repo!.update(id, updateBookCategoryDto);
+    return this.repo!.findOne({ where: { id } });
   }
 
   async remove(id: string) {
-    const category = await this.repo.findOne({ where: { id } });
-    await this.repo.delete(id);
+    const category = await this.repo!.findOne({ where: { id } });
+    await this.repo!.delete(id);
     return category;
   }
 }
