@@ -14,11 +14,13 @@ import { JwtStrategy } from './jwt.strategy';
     // ตั ้งค่า JWT แบบ Async เพื ่อรออ่านค่าจาก .env 
     JwtModule.registerAsync({ 
       imports: [ConfigModule], 
+      inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({ 
-        secret: configService.get<string>('JWT_SECRET'), 
-        signOptions: { expiresIn: '1d' }, // Token หมดอายุใน 1 วัน 
+        secret: configService.get<string>('JWT_SECRET')!, 
+        signOptions: { 
+          expiresIn: '1d', 
+        }, 
       }), 
-      inject: [ConfigService], 
     }), 
   ], 
   controllers: [AuthController], 

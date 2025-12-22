@@ -14,13 +14,11 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-        // ✅ 1. โหลด .env ก่อน
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env', // ต้องระบุบรรทัดนี้เพื่อให้ชัวร์ว่าอ่านไฟล์ถูก
+      envFilePath: '.env', 
   }),
 
-    // ✅ 2. ให้ TypeORM อ่านค่าจาก .env
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -35,9 +33,9 @@ import { AuthModule } from './auth/auth.module';
       }),
       inject: [ConfigService],
     }),
-
     UsersModule,
-
+    BookCategoryModule,
+    BookModule,
     AuthModule,
   ],
 })

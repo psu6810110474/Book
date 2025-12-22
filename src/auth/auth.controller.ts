@@ -9,7 +9,7 @@ class LoginDto {
  
 @Controller('auth') 
 export class AuthController { 
-  constructor(@Optional() private authService?: AuthService) {} 
+  constructor(private authService?: AuthService) {} 
   @Post('login') 
   async login(@Body() body: LoginDto) {
     if (!this.authService) throw new UnauthorizedException('AuthService not available');

@@ -11,7 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
- 
+import { Delete, Param } from '@nestjs/common'; 
+
 @Controller('book') 
 export class BookController { 
   constructor(private readonly bookService: BookService) {} 
@@ -26,6 +27,12 @@ export class BookController {
   @Roles(UserRole.ADMIN) 
   @Post() 
     create(@Body() createBookDto: CreateBookDto) { 
-    return this.bookService.create(createBookDto);
+      return this.bookService.create(createBookDto);
   }
-} // ปิด
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.bookService.remove(id);
+  }
+} 
